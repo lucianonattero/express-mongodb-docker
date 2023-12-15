@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  app:
+    container_name: NodeJs
+    build: .
+    command: npm run dev
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+  mongo:
+    image: mongo
+    volumes:
+      - ./db_data/db/:/data/db/
+  mongo-express:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin123
+      - ME_CONFIG_MONGODB_URL=mongodb://mongo:27017/
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+    depends_on:
+      - mongo
+    ports:
+      - "8888:8081"
