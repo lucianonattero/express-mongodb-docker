@@ -2,12 +2,12 @@ FROM node:latest
 
 WORKDIR /usr/src/app
 
-COPY package.json /usr/src/app
+COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
-COPY . .
+COPY . ./
 
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+CMD ["npm", "run", "dev"]
